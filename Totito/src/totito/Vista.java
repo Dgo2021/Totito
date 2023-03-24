@@ -20,7 +20,7 @@ public class Vista extends javax.swing.JFrame {
     //Si es True se puede escribir
     boolean ganadorXO = false;
     boolean estado = true;
-
+    
     String turno = "X";
     JLabel lb[] = new JLabel[9];
 
