@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Totito">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/Totito.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

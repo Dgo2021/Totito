@@ -20,7 +20,7 @@ public class Vista extends javax.swing.JFrame {
     //Si es True se puede escribir
     boolean ganadorXO = false;
     boolean estado = true;
-    String siguiente = "O";
+
     String turno = "X";
     JLabel lb[] = new JLabel[9];
 
@@ -348,12 +348,22 @@ public class Vista extends javax.swing.JFrame {
     }
 
     public boolean ia(int numero) {
-       
-        for (Integer i : jugadaJugador) {
-            if (i == numero) {
-                i++;
-                lb[i].setText(turno);
-                continue;
+        int vuelta = 0;
+        for (Integer[] i : jugadasGuardadas) {
+
+            for (int j : i) {
+                if (j == numero) {
+                    vuelta++;
+                    int pos = i[vuelta];
+                    if (lb[pos - 1].getText() == "") {
+                        System.out.println("Jugada a detener");
+                        System.out.println(Arrays.toString(i));
+                        System.out.println("\n");
+                        lb[pos - 1].setText(turno);
+                        cambio();
+                        return true;
+                    }
+                }
             }
         }
         return false;
@@ -381,12 +391,7 @@ public class Vista extends javax.swing.JFrame {
             }
         }
 
-        if (turno.equals("O")) {
-            turno = "X";
-        } else {
-            turno = "O";
-        }
-        sg.setText("Turno de " + turno);
+        cambio();
     }
 
 // Metodo para validar el turno
@@ -431,10 +436,9 @@ public class Vista extends javax.swing.JFrame {
 //                    System.out.println(Arrays.toString(n));
 //                }
                 //INTENTO DE JUGADA JUGADOR
-                for (Integer n : jugadaJugador) {
-                    System.out.println(n);
-                }
-
+//                for (Integer n : jugadaJugador) {
+//                    System.out.println(n);
+//                }
                 //LIMPIEZA JUGADA JUGADOR
                 jugadaJugador.clear();
                 //detiene for para no escribir "o"
@@ -465,14 +469,6 @@ public class Vista extends javax.swing.JFrame {
             lb[i].setBackground(Color.WHITE);
         }
         jLabel11.setText("");
-//Codigo para comenzar con el siguiente juego 
-//        turno = siguiente;
-//        if (siguiente.equals("O")) {
-//            siguiente = "X";
-//        } else {
-//            siguiente = "O";
-//        }
-        sg.setText("Turno de " + turno);
         estado = true;
         ganadorXO = false;
     }
