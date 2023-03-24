@@ -87,7 +87,7 @@ public class Vista extends javax.swing.JFrame {
         pO = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("TOTITO");
+        setTitle("Totineitor");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -331,17 +331,32 @@ public class Vista extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         limpiar();
     }//GEN-LAST:event_jButton1ActionPerformed
-//Metodo que registra cuando se selecciona un jtable y se marca X 
 
+//Metodo que registra cuando se selecciona un jtable y se marca X 
     public void presionar(int casilla) {
-        jugadaJugador.add(casilla);
         if (lb[casilla - 1].getText().equals("") && estado) {
             lb[casilla - 1].setText(turno);
-            cambio();
-            ganador();
-            random();
-        }
 
+            cambio();
+            boolean topado = ia(casilla);
+            ganador();
+            if (!topado) {
+                random();
+            }
+
+        }
+    }
+
+    public boolean ia(int numero) {
+       
+        for (Integer i : jugadaJugador) {
+            if (i == numero) {
+                i++;
+                lb[i].setText(turno);
+                continue;
+            }
+        }
+        return false;
     }
 //Metodo para colocar de manera ramdom la O
 
@@ -373,9 +388,10 @@ public class Vista extends javax.swing.JFrame {
         }
         sg.setText("Turno de " + turno);
     }
-// Metodo para validar el turno
 
+// Metodo para validar el turno
     public void cambio() {
+
         if (turno.equals("X")) {
             turno = "O";
         } else {
@@ -398,40 +414,50 @@ public class Vista extends javax.swing.JFrame {
                 lb[victoria[i][0] - 1].setBackground(Color.green);
                 lb[victoria[i][1] - 1].setBackground(Color.green);
                 lb[victoria[i][2] - 1].setBackground(Color.green);
+
+                //jugadas ganadas se guardan
+                jugadaJugador.add(victoria[i][0]);
+                jugadaJugador.add(victoria[i][1]);
+                jugadaJugador.add(victoria[i][2]);
+                //jugadas ganadas se guardan
+                jugadasGuardadas.add(temporal);
+
                 pX.setText(Integer.toString(Integer.parseInt(pX.getText()) + 1));
                 jLabel11.setText("\"Ganador X\"");
                 estado = false;
 
                 //ARRAYLIST CON AREGLOS DE VICTORIAS
-                System.out.println("\n");
-                for (Integer[] n : jugadasGuardadas) {
-                    System.out.println(Arrays.toString(n));
-                }
-
+//                for (Integer[] n : jugadasGuardadas) {
+//                    System.out.println(Arrays.toString(n));
+//                }
                 //INTENTO DE JUGADA JUGADOR
                 for (Integer n : jugadaJugador) {
                     System.out.println(n);
                 }
+
                 //LIMPIEZA JUGADA JUGADOR
                 jugadaJugador.clear();
+                //detiene for para no escribir "o"
+                break;
             }
 
             if (lb[victoria[i][0] - 1].getText().equals("O")
                     && lb[victoria[i][1] - 1].getText().equals("O")
                     && lb[victoria[i][2] - 1].getText().equals("O")) {
                 ganadorXO = true;
+                estado = false;
                 lb[victoria[i][0] - 1].setBackground(Color.green);
                 lb[victoria[i][1] - 1].setBackground(Color.green);
                 lb[victoria[i][2] - 1].setBackground(Color.green);
                 pO.setText(Integer.toString(Integer.parseInt(pO.getText()) + 1));
                 jLabel11.setText("\"Ganador O\"");
-                estado = false;
+                break;
             }
         }
 
     }
 
-    //Metodo para Eliminar sin eliminar contador de jugadas ganadas
+    //Metodo para limpiar sin eliminar contador de jugadas ganadas
     public void limpiar() {
 
         for (int i = 0; i < lb.length; i++) {
